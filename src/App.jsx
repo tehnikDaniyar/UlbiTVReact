@@ -1,19 +1,14 @@
 import React, { useState } from "react"
 import Counter from "./components/counter"
+import PostItem from "./components/PostItem"
 
 
 function App() {
 
 	return (
-		<>
-			<Counter></Counter>
-			<Counter></Counter>
-			<Counter></Counter>
-			<Counter></Counter>
-			<Counter></Counter>
-			<Counter></Counter>
-			<Counter></Counter>
-		</>
+		<div className="App">
+			<PostItem></PostItem>
+		</div>
 	)
 
 }
