@@ -1,17 +1,19 @@
 import react from "react";
-export default function PostItem() {
+export default function PostItem({ index, title }) {
+
+	console.log(index, title);
 	return (
 		<>
 			<div className="post">
 				<div className="post__content">
-					<strong>1. JavaScript</strong>
+					<strong>{index + 1}. {title}</strong>
 					<div>
-						JavaScript is programmin language
+						{title}
 					</div>
 				</div>
-				<post className="btns">
+				<div className="btns">
 					<button>Удалить</button>
-				</post>
+				</div>
 			</div>
 		</>
 	)
