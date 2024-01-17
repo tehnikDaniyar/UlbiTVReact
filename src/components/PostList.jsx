@@ -1,11 +1,17 @@
 import react from "react";
 import PostItem from "./PostItem";
+import { useSelector, useDispatch } from 'react-redux'
 
-export default function PostList({ posts, title }) {
+export default function PostList({ title }) {
+
+	const posts = useSelector((state) => state.posts.value);
+
+
 	return (
 		<>
 			<h1 style={{ textAlign: 'center' }}>{title}</h1>
-			{posts.map((post, i) => <PostItem key={post.id} index={i} title={post.title}></PostItem>)}
+			{posts.map((post) => <PostItem key={post.id} post={post} description={post.description}></PostItem >)
+			}
 		</>
 	)
 }

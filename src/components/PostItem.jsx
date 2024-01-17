@@ -1,18 +1,21 @@
 import react from "react";
-export default function PostItem({ index, title }) {
+import MyButton from "./UI/MyButton/MyButton";
 
-	console.log(index, title);
+
+export default function PostItem({ post, description }) {
+
+
 	return (
 		<>
 			<div className="post">
 				<div className="post__content">
-					<strong>{index + 1}. {title}</strong>
+					<strong style={{ marginBottom: '10px', display: 'block' }}>{post.id}. {post.title}</strong>
 					<div>
-						{title}
+						{description}
 					</div>
 				</div>
 				<div className="btns">
-					<button>Удалить</button>
+					<MyButton>Удалить</MyButton>
 				</div>
 			</div>
 		</>
