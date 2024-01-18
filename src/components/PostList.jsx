@@ -10,7 +10,10 @@ export default function PostList({ title }) {
 	return (
 		<>
 			<h1 style={{ textAlign: 'center' }}>{title}</h1>
-			{posts.map((post) => <PostItem key={post.id} post={post} description={post.description}></PostItem >)
+
+			{posts.length > 0
+				? posts.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >)
+				: <div style={{ textAlign: 'center', fontSize: '28px' }}>Посты не найдены</div>
 			}
 		</>
 	)
