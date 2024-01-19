@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 export default function PostList({ title }) {
 
-	const posts = useSelector((state) => state.posts.value);
+	const posts = useSelector((store) => store.posts.value);
 
 
 	return (
