@@ -1,0 +1,20 @@
+.wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid green;
+	padding: 0 10px;
+}
+
+.icon {
+	height: 20px;
+	width: 20px;
+	cursor: pointer;
+}
+
+.wrapper input {
+	border: none;
+	outline: none;
+	margin: 0 0 0 0;
+	height: 100%;
+}

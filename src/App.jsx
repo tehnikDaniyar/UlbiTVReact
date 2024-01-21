@@ -8,6 +8,7 @@ import { searchPost } from "./redux/slices/postsSlice"
 
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useMemo, useState } from "react"
+import SearchInput from "./components/SearchInput/SearchInput"
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
 	useEffect(() => {
 		dispatch(sortPosts(sortProperty));
 	}, [sortProperty, posts.length]);
+
+
 
 	return (
 
@@ -39,9 +42,9 @@ function App() {
 			</MySelect>
 
 			<hr style={{ margin: '30px 0' }} />
-			<h2>Поиск</h2>
-			<MyInput placeholder={'поиск...'} onChange={(e) => dispatch(searchPost(e.target.value))}></MyInput>
 
+			<h2>Поиск</h2>
+			<SearchInput></SearchInput>
 			<PostList title={'список постов LP'}></PostList>
 		</div >
 	)

@@ -1,13 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const getPosts = createAsyncThunk(
+	"posts/getPosts",
+	async function () {
+		const responce = await fetch('https://65ad2376adbd5aa31be030f9.mockapi.io/posts');
+		const data = await responce.json();
+		return data;
+	}
+);
 
 const initialState = {
 	value: [
-		{ id: 777, title: 'javascript', description: 'a' },
-		{ id: 2, title: 'python', description: 'b' },
-		{ id: 3, title: 'C', description: 'd' },
-		{ id: 4, title: 'C++', description: 'c' },
+
+		// { id: 777, title: 'javascript', description: 'a' },
+		// { id: 2, title: 'python', description: 'b' },
+		// { id: 3, title: 'C', description: 'd' },
+		// { id: 4, title: 'C++', description: 'c' },
 	],
 }
+
 
 export const postsSlice = createSlice({
 	name: 'posts',
@@ -27,8 +38,27 @@ export const postsSlice = createSlice({
 		},
 
 		searchPost: (state, action) => {
+			const searchQuery = action.payload;
 
+			const checkText = (post, searchQuery) => {
+				for (let i in post) {
+					if (i !== 'id') {
+						if (post[i].toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1) {
+							return true;
+						}
+					};
+				};
+				return false;
+			};
+
+			state.value = [...state.value].filter(post => checkText(post, searchQuery));
 		}
+	},
+	extraReducers: {
+		[getPosts.pending]: (state, action) => { },
+		[getPosts.fulfilled]: (state, action) => { },
+		[getPosts.rejected]: (state, action) => { },
+
 	},
 })
 
