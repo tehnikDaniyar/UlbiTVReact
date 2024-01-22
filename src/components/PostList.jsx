@@ -3,18 +3,21 @@ import PostItem from "./PostItem";
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function PostList({ title }) {
-
-	const posts = useSelector((store) => store.posts.value);
+	console.log('PostList')
+	const { value, isLoading } = useSelector((store) => store.posts);
 
 
 	return (
 		<>
 			<h1 style={{ textAlign: 'center' }}>{title}</h1>
 
-			{posts.length > 0
-				? posts.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >)
-				: <div style={{ textAlign: 'center', fontSize: '28px' }}>Посты не найдены</div>
+			{isLoading
+				?
+				value.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >)
+				:
+				<h2>PRELOADER</h2>
 			}
+
 		</>
 	)
 }

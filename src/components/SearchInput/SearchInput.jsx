@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 
 
 export default function SearchInput() {
-	console.log('component mounted')
+	console.log('searchInput')
 	const [searchQuery, setSearchQuery] = useState('');
 
 	const dispatch = useDispatch();

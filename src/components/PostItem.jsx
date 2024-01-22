@@ -17,8 +17,6 @@ export default function PostItem({ post, index }) {
 					</div>
 				</div>
 				<div className="btns">
-					{/* <MyButton onClick={console.log('click')}>Удалить</MyButton>
-					 */}
 					<MyButton onClick={() => dispatch(deletePost(post.id))}>delete</MyButton>
 				</div>
 			</div>

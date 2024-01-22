@@ -1,22 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
-	async function () {
+	async function (_, { rejectWithValue, dispatch }) {
 		const responce = await fetch('https://65ad2376adbd5aa31be030f9.mockapi.io/posts');
 		const data = await responce.json();
 		return data;
 	}
 );
 
+
+
 const initialState = {
 	value: [
-
-		// { id: 777, title: 'javascript', description: 'a' },
-		// { id: 2, title: 'python', description: 'b' },
-		// { id: 3, title: 'C', description: 'd' },
-		// { id: 4, title: 'C++', description: 'c' },
 	],
+	isSorted: false,
+	isLoading: false
 }
 
 
@@ -33,8 +33,9 @@ export const postsSlice = createSlice({
 		},
 
 		sortPosts: (state, action) => {
-			console.log('posts sorted', action.payload);
-			state.value = [...state.value].sort((a, b) => a[action.payload].localeCompare(b[action.payload]))
+			state.value = [...state.value].sort((a, b) => a[action.payload].localeCompare(b[action.payload]));
+			state.isSorted = true;
+			console.log('posts sorted');
 		},
 
 		searchPost: (state, action) => {
@@ -54,12 +55,13 @@ export const postsSlice = createSlice({
 			state.value = [...state.value].filter(post => checkText(post, searchQuery));
 		}
 	},
-	extraReducers: {
-		[getPosts.pending]: (state, action) => { },
-		[getPosts.fulfilled]: (state, action) => { },
-		[getPosts.rejected]: (state, action) => { },
-
-	},
+	extraReducers: (builder) => {
+		builder.addCase(getPosts.fulfilled, (state, actions) => {
+			state.value = actions.payload;
+			state.isLoading = true;
+			console.log('posts loaded from API');
+		})
+	}
 })
 
 
