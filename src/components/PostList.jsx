@@ -13,7 +13,7 @@ export default function PostList({ title }) {
 
 			{isLoading
 				?
-				value.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >)
+				value.length ? value.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >) : <h2>Посты не найдены</h2>
 				:
 				<h2>PRELOADER</h2>
 			}
