@@ -5,11 +5,9 @@ export const getPosts = createAsyncThunk(
 	"posts/getPosts",
 	async function () {
 		try {
-			const responce = await fetch('https://65ad2376adbd5aa31be030f9.mockapi.io/posts', { method: 'GET' });
+			const responce = await fetch('http://localhost:3000/posts', { method: 'GET' });
 			const data = await responce.json();
 			return data === 'Not found' ? [] : data;
-			// console.log(data)
-			return []
 		} catch (error) {
 			console.log(error);
 			return []
@@ -19,25 +17,65 @@ export const getPosts = createAsyncThunk(
 
 export const deletePosts = createAsyncThunk(
 	"posts/deletePosts",
-	async function (_, { rejectWithValue, dispatch }) {
+	async function (id, { rejectWithValue, dispatch }) {
 		try {
-			const responce = await fetch('https://65ad2376adbd5aa31be030f9.mockapi.io/post/1', { method: 'DELETE' });
-			const data = await responce.json();
-			return data;
+			const responce = await fetch(`http://localhost:3000/posts/${id}`, { method: 'Delete' });
+			dispatch(getPosts())
 		} catch (error) {
-			console.log(error);
-			return []
+			console.error(error);
 		}
 	}
 );
 
+export const setPosts = createAsyncThunk(
+	"posts/setPost",
+	async function (post, { rejectWithValue, dispatch }) {
+		try {
+			const postData = JSON.stringify(post);
+			const responce = await fetch(`http://localhost:3000/posts`, { method: 'Post', body: postData });
+			dispatch(getPosts())
+		} catch (error) {
+			console.log(error);
+		}
+	}
+)
+
+export const sortPost = createAsyncThunk(
+	"posts/sortPost",
+	async function (property, { rejectWithValue, dispatch }) {
+		try {
+			const responce = await fetch(`http://localhost:3000/posts?_sort=${property}`, { method: 'GET' });
+			const data = await responce.json();
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+)
+
+export const searchQuery = createAsyncThunk(
+)
+
+export const asyncQuery = createAsyncThunk(
+	"posts/asyncQuery",
+	async function (props, { rejectWithValue, dispatch }) {
+		try {
+
+		} catch (error) {
+
+		};
+	}
+);
 
 
 const initialState = {
 	value: [
 	],
 	isSorted: false,
-	isLoading: false
+	isLoading: false,
+	switch: 0,
+	sortProperty: 'title'
+
 }
 
 
@@ -45,35 +83,8 @@ export const postsSlice = createSlice({
 	name: 'posts',
 	initialState,
 	reducers: {
-		setPosts: (state, action) => {
-			state.value = [...state.value, action.payload]
-		},
-
-		// deletePost: (state, action) => {
-		// 	state.value = [...state.value].filter(post => post.id !== action.payload)
-		// },
-
-		sortPosts: (state, action) => {
-			state.value = [...state.value].sort((a, b) => a[action.payload].localeCompare(b[action.payload]));
-			state.isSorted = true;
-			console.log('posts sorted');
-		},
-
-		searchPost: (state, action) => {
-			const searchQuery = action.payload;
-
-			const checkText = (post, searchQuery) => {
-				for (let i in post) {
-					if (i !== 'id') {
-						if (post[i].toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1) {
-							return true;
-						}
-					};
-				};
-				return false;
-			};
-
-			state.value = [...state.value].filter(post => checkText(post, searchQuery));
+		setSortProperty: (state, action) => {
+			state.sortProperty = action.payload;
 		}
 	},
 	extraReducers: (builder) => {
@@ -82,18 +93,21 @@ export const postsSlice = createSlice({
 				getPosts.fulfilled, (state, actions) => {
 					state.value = actions.payload;
 					state.isLoading = true;
-					console.log('posts loaded from API');
 				}
 			)
 			.addCase(
 				deletePosts.fulfilled, (state, action) => {
-					console.log('delete', action.payload);
+				}
+			)
+			.addCase(
+				sortPost.fulfilled, (state, action) => {
+					state.value = action.payload;
 				}
 			)
 	}
 })
 
 
-export const { setPosts, deletePost, sortPosts, searchPost } = postsSlice.actions
+export const { searchPost, setSortProperty } = postsSlice.actions
 
 export default postsSlice.reducer

@@ -1,7 +1,6 @@
 import react from "react";
 import MyButton from "./UI/MyButton/MyButton";
 import { useDispatch } from "react-redux";
-// import { deletePost } from "../redux/slices/postsSlice";
 import { deletePosts } from "../redux/slices/postsSlice";
 
 
@@ -18,7 +17,7 @@ export default function PostItem({ post, index }) {
 					</div>
 				</div>
 				<div className="btns">
-					<MyButton onClick={() => dispatch(deletePosts())}>delete</MyButton>
+					<MyButton onClick={() => dispatch(deletePosts(post.id))}>delete</MyButton>
 				</div>
 			</div>
 		</>

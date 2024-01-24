@@ -1,23 +1,23 @@
 import react, { useState, useEffect } from "react";
 import MySelect from "../UI/MySelect/MySelect";
 import { useSelector, useDispatch } from "react-redux";
-import { sortPosts } from "../../redux/slices/postsSlice";
+import { setSortProperty } from "../../redux/slices/postsSlice";
+import { sortPost } from "../../redux/slices/postsSlice";
 
 export default function SortPosts() {
 	const dispatch = useDispatch();
-
+	const sortProperty = useSelector((store) => store.posts.sortProperty);
 	const { isLoading } = useSelector(store => store.posts);
-	const [sortProperty, setSortProperty] = useState('title');
 
 	useEffect(() => {
 		isLoading ?
-			dispatch(sortPosts(sortProperty)) :
+			dispatch(sortPost('title')) :
 			''
-	}, [sortProperty, isLoading]);
+	}, [isLoading]);
 
 	return (
 		<MySelect
-			onChange={(e) => setSortProperty(e.target.value)}
+			onChange={(e) => dispatch(sortPost(e.target.value))}
 			defaultValue={"Сортировка по"}
 			options={[
 				{ name: 'title', text: 'по имени' },

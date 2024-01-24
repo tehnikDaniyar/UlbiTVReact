@@ -2,16 +2,18 @@ import { useRef, useState } from "react";
 import MyButton from "./UI/MyButton/MyButton";
 import MyInput from "./UI/MyInput/MyInput";
 import { setPosts } from "../redux/slices/postsSlice";
+import { useDispatch } from "react-redux";
 
 
 export default function From() {
 	console.log('Form');
 
+	const dispatch = useDispatch();
 	const [post, setPost] = useState({ title: '', description: '' });
 
 	const addPost = (e) => {
 		e.preventDefault();
-		dispatch(setPosts({ id: new Date().getTime(), ...post }));
+		dispatch(setPosts({ id: `${new Date().getTime()}`, ...post }));
 		setPost({ title: '', description: '' })
 	};
 
