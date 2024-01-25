@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import MyButton from "./UI/MyButton/MyButton";
 import MyInput from "./UI/MyInput/MyInput";
 import { setPosts } from "../redux/slices/postsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export default function From() {
@@ -10,10 +10,15 @@ export default function From() {
 
 	const dispatch = useDispatch();
 	const [post, setPost] = useState({ title: '', description: '' });
+	const sortProperty = useSelector(store => store.posts.sortProperty)
 
 	const addPost = (e) => {
 		e.preventDefault();
-		dispatch(setPosts({ id: `${new Date().getTime()}`, ...post }));
+		const props = {
+			post: { id: `${new Date().getTime()}`, ...post },
+			sortProperty: sortProperty
+		}
+		dispatch(setPosts(props));
 		setPost({ title: '', description: '' })
 	};
 

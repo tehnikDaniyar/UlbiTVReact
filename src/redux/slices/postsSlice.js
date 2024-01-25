@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
-	async function () {
+	async function (_, { rejectWithValue, dispatch }) {
+		console.log('post geted')
 		try {
 			const responce = await fetch('http://localhost:3000/posts', { method: 'GET' });
 			const data = await responce.json();
@@ -31,9 +33,10 @@ export const setPosts = createAsyncThunk(
 	"posts/setPost",
 	async function (post, { rejectWithValue, dispatch }) {
 		try {
-			const postData = JSON.stringify(post);
+			console.log(post);
+			const postData = JSON.stringify(post.post);
 			const responce = await fetch(`http://localhost:3000/posts`, { method: 'Post', body: postData });
-			dispatch(getPosts())
+			dispatch(sortPost(post.sortProperty));
 		} catch (error) {
 			console.log(error);
 		}
@@ -44,8 +47,24 @@ export const sortPost = createAsyncThunk(
 	"posts/sortPost",
 	async function (property, { rejectWithValue, dispatch }) {
 		try {
+			console.log('sorted', property)
 			const responce = await fetch(`http://localhost:3000/posts?_sort=${property}`, { method: 'GET' });
 			const data = await responce.json();
+			return { data: data, sortProperty: property };
+		} catch (error) {
+			console.log(error);
+		}
+	}
+)
+
+export const searchPosts = createAsyncThunk(
+	"posts/searchPosts",
+	async function (searchQuery, { rejectWithValue, dispatch }) {
+		try {
+			console.log('search', searchQuery)
+			const responce = await fetch(`http://localhost:3000/posts?q=${searchQuery}`, { method: 'GET' });
+			const data = await responce.json();
+			console.log(data)
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -53,19 +72,7 @@ export const sortPost = createAsyncThunk(
 	}
 )
 
-export const searchQuery = createAsyncThunk(
-)
 
-export const asyncQuery = createAsyncThunk(
-	"posts/asyncQuery",
-	async function (props, { rejectWithValue, dispatch }) {
-		try {
-
-		} catch (error) {
-
-		};
-	}
-);
 
 
 const initialState = {
@@ -75,9 +82,7 @@ const initialState = {
 	isLoading: false,
 	switch: 0,
 	sortProperty: 'title'
-
 }
-
 
 export const postsSlice = createSlice({
 	name: 'posts',
@@ -85,6 +90,12 @@ export const postsSlice = createSlice({
 	reducers: {
 		setSortProperty: (state, action) => {
 			state.sortProperty = action.payload;
+		},
+		searchPost: (state, action) => {
+			const posts = state.value;
+			console.log(posts)
+			// const searchedPosts = posts.value.filter(post => console.log(post));
+			// console.log(searchedPosts);
 		}
 	},
 	extraReducers: (builder) => {
@@ -101,7 +112,20 @@ export const postsSlice = createSlice({
 			)
 			.addCase(
 				sortPost.fulfilled, (state, action) => {
-					state.value = action.payload;
+					state.value = action.payload.data;
+					state.sortProperty = action.payload.sortProperty
+				}
+			)
+			.addCase(
+				setPosts.fulfilled, (store, action) => {
+					const dispatch = action.payload
+					sortPost(store.sortProperty);
+				}
+			)
+			.addCase(
+				searchPosts.fulfilled, (store, action) => {
+					console.log(action.payload)
+					store.value = action.payload;
 				}
 			)
 	}
