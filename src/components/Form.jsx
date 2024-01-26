@@ -3,6 +3,7 @@ import MyButton from "./UI/MyButton/MyButton";
 import MyInput from "./UI/MyInput/MyInput";
 import { setPosts } from "../redux/slices/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setSearchedPosts } from "../redux/slices/postsSlice";
 
 
 export default function From() {
@@ -20,6 +21,7 @@ export default function From() {
 		}
 		dispatch(setPosts(props));
 		setPost({ title: '', description: '' })
+		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }))
 	};
 
 

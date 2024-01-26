@@ -78,6 +78,10 @@ export const searchPosts = createAsyncThunk(
 const initialState = {
 	value: [
 	],
+	searchedData: {
+		searchedPosts: [],
+		searchQuery: ''
+	},
 	isSorted: false,
 	isLoading: false,
 	switch: 0,
@@ -96,6 +100,12 @@ export const postsSlice = createSlice({
 			console.log(posts)
 			// const searchedPosts = posts.value.filter(post => console.log(post));
 			// console.log(searchedPosts);
+		},
+		setSearchedPosts: (state, action) => {
+			state.searchedData.searchedPosts = action.payload.searchedPosts;
+			state.searchedData.searchQuery = action.payload.searchQuery;
+
+			console.log(action.payload)
 		}
 	},
 	extraReducers: (builder) => {
@@ -132,6 +142,6 @@ export const postsSlice = createSlice({
 })
 
 
-export const { searchPost, setSortProperty } = postsSlice.actions
+export const { searchPost, setSortProperty, setSearchedPosts } = postsSlice.actions
 
 export default postsSlice.reducer

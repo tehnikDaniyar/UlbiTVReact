@@ -7,6 +7,7 @@ import { searchPost } from "../../redux/slices/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import MyButton from "../UI/MyButton/MyButton";
 import { getPosts } from "../../redux/slices/postsSlice";
+import { setSearchedPosts } from "../../redux/slices/postsSlice";
 
 
 export default function SearchInput() {
@@ -22,14 +23,15 @@ export default function SearchInput() {
 	};
 
 	const searchData = (query) => {
-
+		setSearchQuery(query);
 		const searchedPosts = posts.filter(post => post.title.includes(query));
-		console.log(searchedPosts);
+		const searchQuery = query;
+		dispatch(setSearchedPosts({ searchedPosts, searchQuery }));
 	}
 
 	return (
 		<div className={styles.wrapper}>
-			<MyInput placeholder={'поиск...'} onChange={(e) => searchData(e.target.value)} ></MyInput>
+			<MyInput placeholder={'поиск...'} value={searchQuery} onChange={(e) => searchData(e.target.value)} ></MyInput>
 			<SearchIcon className={styles.icon} onClick={() => search(searchQuery)}></SearchIcon>
 			<button className={styles.reset_btn} onClick={() => dispatch(getPosts())}>сброс</button>
 		</div>
