@@ -2,6 +2,7 @@ import PostList from "./components/PostList"
 import Form from './components/Form'
 import SortPosts from "./components/Sort/SortPosts"
 import SearchInput from "./components/SearchInput/SearchInput"
+import Confirm from "./components/Confirm/Confirm";
 
 
 
