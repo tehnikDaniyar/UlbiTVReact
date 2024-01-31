@@ -11,6 +11,7 @@ export default function PostItem({ post, index }) {
 	const deleteData = (id) => {
 		dispatch(deletePosts(id));
 		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }));
+
 	}
 	return (
 		<>

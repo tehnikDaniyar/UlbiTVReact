@@ -24,7 +24,7 @@ export default function SearchInput() {
 
 	const searchData = (query) => {
 		setSearchQuery(query);
-		const searchedPosts = posts.filter(post => post.title.includes(query));
+		const searchedPosts = posts.filter(post => post.title.toLowerCase().includes(query.toLowerCase()) || post.description.toLowerCase().includes(query.toLowerCase()));
 		const searchQuery = query;
 		dispatch(setSearchedPosts({ searchedPosts, searchQuery }));
 	}
