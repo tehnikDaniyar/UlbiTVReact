@@ -6,20 +6,22 @@ import SearchInput from "./components/SearchInput/SearchInput"
 import MyButton from "./components/UI/MyButton/MyButton"
 import Modal from "./components/Modal/Modal"
 import { useState } from "react"
-
-
+import { useSelector, useDispatch } from "react-redux"
+import { setIsOpen } from "./redux/slices/modalSlice"
 
 
 function App() {
 	console.log('App');
 
-	const [isOpen, setIsOpen] = useState(false);
+	// const [isOpen, setIsOpen] = useState(false);
+	const isOpen = useSelector(store => store.modal.isOpen);
+	const dispatch = useDispatch();
 
 	return (
 
 		<div className="App">
-			<MyButton onClick={() => setIsOpen(true)}>Добавить пост</MyButton>
-			<Modal isOpen={isOpen} setIsOpen={setIsOpen}><Form></Form></Modal>
+			<MyButton onClick={() => dispatch(setIsOpen(true))}>Добавить пост</MyButton>
+			<Modal><Form></Form></Modal>
 
 			<hr style={{ margin: '30px 0' }} />
 

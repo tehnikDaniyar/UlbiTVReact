@@ -4,7 +4,7 @@ import MyInput from "./UI/MyInput/MyInput";
 import { setPosts } from "../redux/slices/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchedPosts } from "../redux/slices/postsSlice";
-
+import { setIsOpen } from "../redux/slices/modalSlice";
 
 export default function From() {
 	console.log('Form');
