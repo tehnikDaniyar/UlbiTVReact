@@ -21,7 +21,9 @@ export default function From() {
 		}
 		dispatch(setPosts(props));
 		setPost({ title: '', description: '' })
-		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }))
+		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }));
+
+		dispatch(setIsOpen(false));
 	};
 
 
