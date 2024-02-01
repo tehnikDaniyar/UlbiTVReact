@@ -3,20 +3,25 @@ import { useDispatch } from "react-redux";
 import { deletePosts } from "../redux/slices/postsSlice";
 import { setSearchedPosts } from "../redux/slices/postsSlice";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 
 export default function PostItem({ post, index }) {
 	const dispatch = useDispatch();
+	const [hide, setHide] = useState('');
 
 
 	const deleteData = (id) => {
-		dispatch(deletePosts(id));
-		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }));
+		setHide('hide');
+		setTimeout(() => {
+			dispatch(deletePosts(id));
+			dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }));
+		}, 800)
 	}
+
+
 	return (
 		<>
-			<div className="post">
+			<div className={`post view ${hide}`}>
 				<div className="post__content">
 					<strong style={{ marginBottom: '10px', display: 'block' }}>{index + 1}. {post.title}</strong>
 					<div>
@@ -29,4 +34,4 @@ export default function PostItem({ post, index }) {
 			</div >
 		</>
 	)
-}	
+}	 

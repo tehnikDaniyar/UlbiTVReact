@@ -12,9 +12,6 @@ import { setIsOpen } from "./redux/slices/modalSlice"
 
 function App() {
 	console.log('App');
-
-	// const [isOpen, setIsOpen] = useState(false);
-	const isOpen = useSelector(store => store.modal.isOpen);
 	const dispatch = useDispatch();
 
 	return (
