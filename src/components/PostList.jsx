@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import { useSelector, useDispatch } from 'react-redux'
-import { getPosts } from "../redux/slices/postsSlice"
+import Loader from "./UI/Loader/Loader";
 
-
-export default function PostList({ title }) {
+export default function PostList({ title, getData }) {
+	console.log('LIST');
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getPosts());
+		dispatch(getData());
 	}, []);
 
 	const { value, isLoading, searchedData } = useSelector((store) => store.posts);
@@ -18,9 +18,11 @@ export default function PostList({ title }) {
 		<>
 			<h1 style={{ textAlign: 'center' }}>{title}</h1>
 
-			{(isLoading) ?
-				data.length ? data.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >) : <h2>Посты не найдены</h2>
-				: <h2>PRELOADER</h2>
+			{
+
+				(isLoading) ?
+					data.length ? data.map((post, index) => <PostItem key={post.id} post={post} index={index}></PostItem >) : <h2>Посты не найдены</h2>
+					: <div style={{ display: 'flex', justifyContent: 'center' }}><Loader></Loader></div>
 			}
 
 		</>

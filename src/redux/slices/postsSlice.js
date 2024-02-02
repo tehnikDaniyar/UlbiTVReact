@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { useDispatch, useSelector } from 'react-redux';
+import postServices from '../../API/postServices';
 
 
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
 	async function (_, { rejectWithValue, dispatch }) {
-		console.log('post geted')
 		try {
-			const responce = await fetch('http://localhost:3000/posts', { method: 'GET' });
-			const data = await responce.json();
+			const data = await postServices.getPosts();
 			return data === 'Not found' ? [] : data;
 		} catch (error) {
 			console.log(error);
@@ -21,9 +19,10 @@ export const deletePosts = createAsyncThunk(
 	"posts/deletePosts",
 	async function (id, { rejectWithValue, dispatch }) {
 		try {
-			const responce = await fetch(`http://localhost:3000/posts/${id}`, { method: 'Delete' });
+			await postServices.deletePost(id);
 			dispatch(getPosts())
 		} catch (error) {
+			dispatch(getPosts())
 			console.error(error);
 		}
 	}
@@ -33,9 +32,8 @@ export const setPosts = createAsyncThunk(
 	"posts/setPost",
 	async function (post, { rejectWithValue, dispatch }) {
 		try {
-			console.log(post);
 			const postData = JSON.stringify(post.post);
-			const responce = await fetch(`http://localhost:3000/posts`, { method: 'Post', body: postData });
+			postServices.setPost(postData);
 			dispatch(sortPost(post.sortProperty));
 		} catch (error) {
 			console.log(error);
@@ -47,9 +45,7 @@ export const sortPost = createAsyncThunk(
 	"posts/sortPost",
 	async function (property, { rejectWithValue, dispatch }) {
 		try {
-			console.log('sorted', property)
-			const responce = await fetch(`http://localhost:3000/posts?_sort=${property}`, { method: 'GET' });
-			const data = await responce.json();
+			const data = await postServices.sortPosts(property);
 			return { data: data, sortProperty: property };
 		} catch (error) {
 			console.log(error);
@@ -61,19 +57,13 @@ export const searchPosts = createAsyncThunk(
 	"posts/searchPosts",
 	async function (searchQuery, { rejectWithValue, dispatch }) {
 		try {
-			console.log('search', searchQuery)
-			const responce = await fetch(`http://localhost:3000/posts?q=${searchQuery}`, { method: 'GET' });
-			const data = await responce.json();
-			console.log(data)
+			const data = await postServices.searchPost(searchQuery);
 			return data;
 		} catch (error) {
 			console.log(error);
 		}
 	}
 )
-
-
-
 
 const initialState = {
 	value: [
@@ -85,7 +75,8 @@ const initialState = {
 	isSorted: false,
 	isLoading: false,
 	switch: 0,
-	sortProperty: 'title'
+	sortProperty: 'title',
+	isOnline: true,
 }
 
 export const postsSlice = createSlice({
@@ -97,15 +88,10 @@ export const postsSlice = createSlice({
 		},
 		searchPost: (state, action) => {
 			const posts = state.value;
-			console.log(posts)
-			// const searchedPosts = posts.value.filter(post => console.log(post));
-			// console.log(searchedPosts);
 		},
 		setSearchedPosts: (state, action) => {
 			state.searchedData.searchedPosts = action.payload.searchedPosts;
 			state.searchedData.searchQuery = action.payload.searchQuery;
-
-			console.log(action.payload)
 		}
 	},
 	extraReducers: (builder) => {
@@ -128,13 +114,11 @@ export const postsSlice = createSlice({
 			)
 			.addCase(
 				setPosts.fulfilled, (store, action) => {
-					const dispatch = action.payload
 					sortPost(store.sortProperty);
 				}
 			)
 			.addCase(
 				searchPosts.fulfilled, (store, action) => {
-					console.log(action.payload)
 					store.value = action.payload;
 				}
 			)

@@ -7,8 +7,6 @@ import { setSearchedPosts } from "../redux/slices/postsSlice";
 import { setIsOpen } from "../redux/slices/modalSlice";
 
 export default function From() {
-	console.log('Form');
-
 	const dispatch = useDispatch();
 	const [post, setPost] = useState({ title: '', description: '' });
 	const sortProperty = useSelector(store => store.posts.sortProperty)

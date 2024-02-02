@@ -8,6 +8,7 @@ import Modal from "./components/Modal/Modal"
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { setIsOpen } from "./redux/slices/modalSlice"
+import { getPosts } from "./redux/slices/postsSlice"
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
 			<h2>Поиск</h2>
 			<SearchInput></SearchInput>
 
-			<PostList title={'список постов LP'}></PostList>
+			<PostList title={'список постов LP'} getData={getPosts}></PostList>
+
 		</div >
 
 

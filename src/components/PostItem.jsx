@@ -1,14 +1,13 @@
 import MyButton from "./UI/MyButton/MyButton";
 import { useDispatch } from "react-redux";
-import { deletePosts } from "../redux/slices/postsSlice";
 import { setSearchedPosts } from "../redux/slices/postsSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { deletePosts } from "../redux/slices/postsSlice";
 
 
 export default function PostItem({ post, index }) {
 	const dispatch = useDispatch();
 	const [hide, setHide] = useState('');
-
 
 	const deleteData = (id) => {
 		setHide('hide');

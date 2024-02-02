@@ -8,10 +8,7 @@ import { setSearchedPosts } from "../../redux/slices/postsSlice";
 export default function SearchInput() {
 	const posts = useSelector(store => store.posts.value);
 	const [searchQuery, setSearchQuery] = useState('');
-	console.log('searchInput', searchQuery);
-
 	const dispatch = useDispatch();
-
 	const searchData = (query) => {
 		setSearchQuery(query);
 		const searchedPosts = posts.filter(post => post.title.toLowerCase().includes(query.toLowerCase()) || post.description.toLowerCase().includes(query.toLowerCase()));
