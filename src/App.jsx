@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux"
 import { setIsOpen } from "./redux/slices/modalSlice"
 import { getPosts } from "./redux/slices/postsSlice"
 
-
 function App() {
 	console.log('App');
 	const dispatch = useDispatch();

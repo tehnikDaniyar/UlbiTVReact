@@ -11,13 +11,13 @@ export default function SortPosts() {
 
 	useEffect(() => {
 		isLoading ?
-			dispatch(sortPost('title')) :
+			dispatch(sortPost(sortProperty)) :
 			''
-	}, [isLoading]);
+	}, [isLoading, sortProperty]);
 
 	return (
 		<MySelect
-			onChange={(e) => { dispatch(sortPost(e.target.value)); dispatch(setSortProperty(e.target.value)) }}
+			onChange={(e) => { dispatch(setSortProperty(e.target.value)) }}
 			defaultValue={"Сортировка по"}
 			options={[
 				{ name: 'title', text: 'по имени' },
