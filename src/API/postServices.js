@@ -1,17 +1,27 @@
+import axios from "axios";
+
+
 export default class postServices {
-	static async getPosts() {
-		const responce = await fetch('http://localhost:3000/posts', { method: 'GET' });
-		return await responce.json();
+	static async getPosts(sortProperty, currentPage) {
+		// const responce = await fetch('http://localhost:3000/posts', {
+		// 	method: 'GET',
+		// 	headers: { "Accept": "application/json" }
+		// });
+
+		const responce = await axios.get('http://localhost:3000/posts', {
+			params: {
+				_page: currentPage,
+				_per_page: 10,
+				_sort: sortProperty
+			}
+		});
+		return await responce.data;
 	}
 	static async deletePost(id) {
 		await fetch(`http://localhost:3000/posts/${id}`, { method: 'Delete' });
 	}
 	static async setPost(postData) {
 		await fetch(`http://localhost:3000/posts`, { method: 'Post', body: postData });
-	}
-	static async sortPosts(property) {
-		const responce = await fetch(`http://localhost:3000/posts?_sort=${property}`, { method: 'GET' });
-		return await responce.json();
 	}
 	static async searchPost(searchQuery) {
 		const responce = await fetch(`http://localhost:3000/posts?q=${searchQuery}`, { method: 'GET' });

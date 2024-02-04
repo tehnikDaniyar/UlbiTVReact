@@ -4,9 +4,10 @@ import postServices from '../../API/postServices';
 
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
-	async function (_, { rejectWithValue, dispatch }) {
+	async function ({ sortProperty, currentPage }, { rejectWithValue, dispatch }) {
+		console.log('!!!!!!1', sortProperty, currentPage)
 		try {
-			const data = await postServices.getPosts();
+			const data = await postServices.getPosts(sortProperty, currentPage);
 			return data === 'Not found' ? [] : data;
 		} catch (error) {
 			console.log(error);
@@ -41,18 +42,6 @@ export const setPosts = createAsyncThunk(
 	}
 )
 
-export const sortPost = createAsyncThunk(
-	"posts/sortPost",
-	async function (property, { rejectWithValue, dispatch }) {
-		try {
-			const data = await postServices.sortPosts(property);
-			return { data: data, sortProperty: property };
-		} catch (error) {
-			console.log(error);
-		}
-	}
-)
-
 export const searchPosts = createAsyncThunk(
 	"posts/searchPosts",
 	async function (searchQuery, { rejectWithValue, dispatch }) {
@@ -77,6 +66,10 @@ const initialState = {
 	switch: 0,
 	sortProperty: 'title',
 	isOnline: true,
+	paginationInfo: {
+		currentPage: 1,
+	}
+
 }
 
 export const postsSlice = createSlice({
@@ -92,24 +85,22 @@ export const postsSlice = createSlice({
 		setSearchedPosts: (state, action) => {
 			state.searchedData.searchedPosts = action.payload.searchedPosts;
 			state.searchedData.searchQuery = action.payload.searchQuery;
+		},
+		setCurrentPage: (state, action) => {
+			state.paginationInfo.currentPage = action.payload;
 		}
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(
 				getPosts.fulfilled, (state, actions) => {
-					state.value = actions.payload;
+					state.value = actions.payload.data;
 					state.isLoading = true;
+					state.paginationInfo = { ...state.paginationInfo, ...actions.payload, data: '' }
 				}
 			)
 			.addCase(
 				deletePosts.fulfilled, (state, action) => {
-				}
-			)
-			.addCase(
-				sortPost.fulfilled, (state, action) => {
-					state.value = action.payload.data;
-					state.sortProperty = action.payload.sortProperty
 				}
 			)
 			.addCase(
@@ -126,6 +117,6 @@ export const postsSlice = createSlice({
 })
 
 
-export const { searchPost, setSortProperty, setSearchedPosts } = postsSlice.actions
+export const { searchPost, setSortProperty, setSearchedPosts, setCurrentPage } = postsSlice.actions
 
 export default postsSlice.reducer

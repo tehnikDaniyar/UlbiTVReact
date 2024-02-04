@@ -1,0 +1,22 @@
+.pagination {
+	display: flex;
+	padding: 20px 0;
+
+
+	.wrapper {
+		display: flex;
+		gap: 5px;
+		overflow: hidden;
+	}
+
+	.button {
+		cursor: pointer;
+		padding: 5px 10px;
+		border: 1px solid green;
+
+		&._active {
+			border: 2px solid orange;
+			font-weight: bold;
+		}
+	}
+}

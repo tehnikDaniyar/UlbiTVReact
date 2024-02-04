@@ -8,10 +8,12 @@ import Modal from "./components/Modal/Modal"
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { setIsOpen } from "./redux/slices/modalSlice"
-import { getPosts } from "./redux/slices/postsSlice"
+import { getPosts, setCurrentPage } from "./redux/slices/postsSlice"
+import Pagination from "./components/Pagination/Pagination"
+import { getManyPosts } from "./scripts/utilites"
 
 function App() {
-	console.log('App');
+	console.log('App', getManyPosts(300));
 	const dispatch = useDispatch();
 
 	return (
@@ -30,7 +32,6 @@ function App() {
 			<SearchInput></SearchInput>
 
 			<PostList title={'список постов LP'} getData={getPosts}></PostList>
-
 		</div >
 
 
