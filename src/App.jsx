@@ -1,40 +1,23 @@
-import PostList from "./components/PostList"
-import Form from './components/Form'
-import SortPosts from "./components/Sort/SortPosts"
-import SearchInput from "./components/SearchInput/SearchInput"
-
-import MyButton from "./components/UI/MyButton/MyButton"
-import Modal from "./components/Modal/Modal"
-import { useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { setIsOpen } from "./redux/slices/modalSlice"
-import { getPosts, setCurrentPage } from "./redux/slices/postsSlice"
-import Pagination from "./components/Pagination/Pagination"
-import { getManyPosts } from "./scripts/utilites"
+import { Route, Routes } from "react-router-dom"
+import Posts from "./components/pages/Posts";
+import Home from "./components/pages/home";
+import TemporaryDrawer from "./components/Navbar/TemporaryDrawer";
+import Error from "./components/pages/Error";
 
 function App() {
-	console.log('App', getManyPosts(300));
-	const dispatch = useDispatch();
+	console.log('App');
 
 	return (
 
 		<div className="App">
-			<MyButton onClick={() => dispatch(setIsOpen(true))}>Добавить пост</MyButton>
-			<Modal><Form></Form></Modal>
+			<TemporaryDrawer></TemporaryDrawer>
+			<Routes>
+				<Route path="/posts" element={<Posts></Posts>} />
+				<Route path="/" element={<Home></Home>} />
+				<Route path="*" element={<Error></Error>}></Route>
+			</Routes>
 
-			<hr style={{ margin: '30px 0' }} />
-
-			<h2 style={{ margin: '0 0 20px 0' }}>Сортировка</h2>
-			<SortPosts></SortPosts>
-			<hr style={{ margin: '30px 0' }} />
-
-			<h2>Поиск</h2>
-			<SearchInput></SearchInput>
-
-			<PostList title={'список постов LP'} getData={getPosts}></PostList>
 		</div >
-
-
 	)
 
 

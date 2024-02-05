@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import { useSelector, useDispatch } from 'react-redux'
 import Loader from "./UI/Loader/Loader"
-// import Pagination from "./Pagination/Pagination";
 import { setCurrentPage } from "../redux/slices/postsSlice";
-import { Pagination } from "@mui/material";
+import { Pagination, Typography } from "@mui/material";
 
 
 
@@ -14,8 +13,6 @@ export default function PostList({ title, getData }) {
 	const sortProperty = useSelector(store => store.posts.sortProperty);
 	const currentPage = useSelector(store => store.posts.paginationInfo.currentPage);
 	const totalPages = useSelector(store => store.posts.paginationInfo.pages);
-	const prevPage = useSelector(store => store.posts.paginationInfo.prev);
-	const nextPage = useSelector(store => store.posts.paginationInfo.next);
 	const { value, isLoading, searchedData } = useSelector((store) => store.posts);
 	const data = searchedData.searchedPosts.length || searchedData.searchQuery.length ? searchedData.searchedPosts : value;
 	const handleChangeCurrentPage = (p) => {
@@ -34,18 +31,15 @@ export default function PostList({ title, getData }) {
 		<>
 			<h1 style={{ textAlign: 'center' }}>{title}</h1>
 
-			{/* <Pagination
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-				totalPages={totalPages}
-				prevPage={prevPage}
-				nextPage={nextPage}
-			></Pagination> */}
-
+			<Typography>Page: {currentPage}</Typography>
 			<Pagination
 				count={totalPages}
 				onChange={(e, num) => handleChangeCurrentPage(num)}
 				page={currentPage}
+				color="primary"
+				size="large"
+				showFirstButton={true}
+				showLastButton={true}
 			>
 			</Pagination>
 
@@ -64,13 +58,17 @@ export default function PostList({ title, getData }) {
 
 
 
-			{/* <Pagination
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-				totalPages={totalPages}
-				prevPage={prevPage}
-				nextPage={nextPage}
-			></Pagination> */}
+			<Typography>Page: {currentPage}</Typography>
+			<Pagination
+				count={totalPages}
+				onChange={(e, num) => handleChangeCurrentPage(num)}
+				page={currentPage}
+				color="primary"
+				size="large"
+				showFirstButton={true}
+				showLastButton={true}
+			>
+			</Pagination>
 
 		</>
 	)
