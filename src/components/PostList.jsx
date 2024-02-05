@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import { useSelector, useDispatch } from 'react-redux'
 import Loader from "./UI/Loader/Loader"
@@ -18,9 +18,11 @@ export default function PostList({ title, getData }) {
 	const nextPage = useSelector(store => store.posts.paginationInfo.next);
 	const { value, isLoading, searchedData } = useSelector((store) => store.posts);
 	const data = searchedData.searchedPosts.length || searchedData.searchQuery.length ? searchedData.searchedPosts : value;
-	const handleChangeCurrentPage = () => {
-		dispatch(setCurrentPage());
-	}
+	const handleChangeCurrentPage = (p) => {
+		dispatch(setCurrentPage(Number(p)));
+	};
+	const [page, setPage] = useState(1);
+	console.log(page)
 
 	useEffect(() => {
 		dispatch(getData({ sortProperty, currentPage }));
@@ -42,12 +44,9 @@ export default function PostList({ title, getData }) {
 
 			<Pagination
 				count={totalPages}
-				onChange={handleChangeCurrentPage}
+				onChange={(e, num) => handleChangeCurrentPage(num)}
 				page={currentPage}
-				showFirstButton
-				showLastButton
 			>
-
 			</Pagination>
 
 
@@ -65,13 +64,13 @@ export default function PostList({ title, getData }) {
 
 
 
-			<Pagination
+			{/* <Pagination
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 				totalPages={totalPages}
 				prevPage={prevPage}
 				nextPage={nextPage}
-			></Pagination>
+			></Pagination> */}
 
 		</>
 	)
