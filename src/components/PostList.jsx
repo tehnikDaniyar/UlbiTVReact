@@ -18,9 +18,6 @@ export default function PostList({ title, getData }) {
 	const handleChangeCurrentPage = (p) => {
 		dispatch(setCurrentPage(Number(p)));
 	};
-	const [page, setPage] = useState(1);
-	console.log(page)
-
 	useEffect(() => {
 		dispatch(getData({ sortProperty, currentPage }));
 	}, [sortProperty, currentPage]);

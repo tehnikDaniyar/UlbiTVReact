@@ -18,12 +18,15 @@ export const getPosts = createAsyncThunk(
 
 export const deletePosts = createAsyncThunk(
 	"posts/deletePosts",
-	async function (id, { rejectWithValue, dispatch }) {
+	async function (props, { rejectWithValue, dispatch }) {
 		try {
-			await postServices.deletePost(id);
-			dispatch(getPosts())
+			console.log('start deleting', props)
+			await postServices.deletePost(props.id);
+			dispatch(getPosts({ sortProperty: props.sortProperty, currentPage: props.currentPage }))
+			// postServices.getPosts(props.sortProperty, props.currentPage)
+
 		} catch (error) {
-			dispatch(getPosts())
+			dispatch(getPosts({ sortProperty: props.sortProperty, currentPage: props.currentPage }))
 			console.error(error);
 		}
 	}
@@ -34,8 +37,12 @@ export const setPosts = createAsyncThunk(
 	async function (post, { rejectWithValue, dispatch }) {
 		try {
 			const postData = JSON.stringify(post.post);
-			postServices.setPost(postData);
-			dispatch(sortPost(post.sortProperty));
+			console.log('POSTDATA!!!!!!!!!!!!', postData)
+			await postServices.setPost(postData);
+			console.log('currentPage', post.currentPage)
+			// postServices.getPosts(post.sortProperty, post.currentPage);
+			dispatch(getPosts({ sortProperty: post.sortProperty, currentPage: post.currentPage }))
+
 		} catch (error) {
 			console.log(error);
 		}
@@ -103,11 +110,11 @@ export const postsSlice = createSlice({
 				deletePosts.fulfilled, (state, action) => {
 				}
 			)
-			.addCase(
-				setPosts.fulfilled, (store, action) => {
-					sortPost(store.sortProperty);
-				}
-			)
+			// .addCase(
+			// 	setPosts.fulfilled, (store, action) => {
+			// 		sortPost(store.sortProperty);
+			// 	}
+			// )
 			.addCase(
 				searchPosts.fulfilled, (store, action) => {
 					store.value = action.payload;

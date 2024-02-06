@@ -15,9 +15,11 @@ export default class postServices {
 				_sort: sortProperty
 			}
 		});
+		console.log('getted Data', responce.data)
 		return await responce.data;
 	}
 	static async deletePost(id) {
+		console.log('deleteId', id)
 		await fetch(`http://localhost:3000/posts/${id}`, { method: 'Delete' });
 	}
 	static async setPost(postData) {

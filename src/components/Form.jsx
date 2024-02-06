@@ -9,18 +9,19 @@ import { setIsOpen } from "../redux/slices/modalSlice";
 export default function From() {
 	const dispatch = useDispatch();
 	const [post, setPost] = useState({ title: '', description: '' });
-	const sortProperty = useSelector(store => store.posts.sortProperty)
+	const sortProperty = useSelector(store => store.posts.sortProperty);
+	const currentPage = useSelector(store => store.posts.paginationInfo.currentPage);
 
 	const addPost = (e) => {
 		e.preventDefault();
 		const props = {
 			post: { id: `${new Date().getTime()}`, ...post },
-			sortProperty: sortProperty
+			sortProperty: sortProperty,
+			currentPage: currentPage
 		}
 		dispatch(setPosts(props));
 		setPost({ title: '', description: '' })
 		dispatch(setSearchedPosts({ searchedPosts: [], searchQuery: '' }));
-
 		dispatch(setIsOpen(false));
 	};
 
