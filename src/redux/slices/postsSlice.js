@@ -5,7 +5,6 @@ import postServices from '../../API/postServices';
 export const getPosts = createAsyncThunk(
 	"posts/getPosts",
 	async function ({ sortProperty, currentPage }, { rejectWithValue, dispatch }) {
-		console.log('!!!!!!1', sortProperty, currentPage)
 		try {
 			const data = await postServices.getPosts(sortProperty, currentPage);
 			return data === 'Not found' ? [] : data;

@@ -1,0 +1,39 @@
+.post {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border: 1px solid green;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.view {
+	position: relative;
+	animation: view 0.6s ease-in-out;
+	// z-index: -2;
+
+	// display: none;
+	&.hide {
+		animation: hide 0.9s ease-in-out;
+	}
+}
+
+@keyframes view {
+	0% {
+		left: -200%
+	}
+
+	100% {
+		left: 0%
+	}
+}
+
+@keyframes hide {
+	0% {
+		left: 0%
+	}
+
+	100% {
+		left: 200%
+	}
+}

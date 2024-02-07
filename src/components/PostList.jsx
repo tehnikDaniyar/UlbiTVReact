@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostItem from "./PostItem";
+import PostItem from "./PostItem/PostItem";
 import { useSelector, useDispatch } from 'react-redux'
 import Loader from "./UI/Loader/Loader"
 import { setCurrentPage } from "../redux/slices/postsSlice";
@@ -18,9 +18,12 @@ export default function PostList({ title, getData }) {
 	const handleChangeCurrentPage = (p) => {
 		dispatch(setCurrentPage(Number(p)));
 	};
+
+
 	useEffect(() => {
 		dispatch(getData({ sortProperty, currentPage }));
 	}, [sortProperty, currentPage]);
+
 
 
 
