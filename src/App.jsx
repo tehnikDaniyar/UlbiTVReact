@@ -1,24 +1,38 @@
 import { Route, Routes } from "react-router-dom"
 import Posts from "./components/pages/Posts";
 import Home from "./components/pages/home";
-import TemporaryDrawer from "./components/Navbar/TemporaryDrawer";
 import Error from "./components/pages/Error";
 import PostPage from "./components/pages/PostPage";
+import publicRoutes from "./routes/publicRoutes";
+import privateRoutes from "./routes/privateRoutes";
+import { useState } from "react";
+import MyButton from "./components/UI/MyButton/MyButton";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from './components/Login/Login'
+import { useSelector } from "react-redux";
+
 
 function App() {
+	const isAuth = useSelector(store => store.posts.isAuth);
+
+
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: <Home></Home>,
+			children: isAuth ? privateRoutes() : publicRoutes()
+		}
+	]);
+
 	console.log('App');
+
 
 	return (
 
 		<div className="App">
-			<TemporaryDrawer></TemporaryDrawer>
-			<Routes>
-				<Route path="/posts" element={<Posts></Posts>} />
-				<Route path="/" element={<Home></Home>} />
-				<Route path="*" element={<Error></Error>}></Route>
-				<Route path="/post/:id" element={<PostPage></PostPage>}></Route>
-			</Routes>
+			<RouterProvider router={router}>
 
+			</RouterProvider>
 		</div >
 	)
 

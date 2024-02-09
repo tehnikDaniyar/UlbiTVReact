@@ -19,7 +19,7 @@ export default function TemporaryDrawer() {
 
 
 	return (
-		<div>
+		<div style={{ position: 'absolute', width: '100%', top: '0', left: '0' }}>
 			{['nav'].map((anchor) => (
 				<React.Fragment key={anchor}>
 					<Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>

@@ -74,7 +74,8 @@ const initialState = {
 	isOnline: true,
 	paginationInfo: {
 		currentPage: 1,
-	}
+	},
+	isAuth: false,
 
 }
 
@@ -94,6 +95,9 @@ export const postsSlice = createSlice({
 		},
 		setCurrentPage: (state, action) => {
 			state.paginationInfo.currentPage = action.payload;
+		},
+		setIsAuth: (state, action) => {
+			state.isAuth = action.payload;
 		}
 	},
 	extraReducers: (builder) => {
@@ -123,6 +127,6 @@ export const postsSlice = createSlice({
 })
 
 
-export const { searchPost, setSortProperty, setSearchedPosts, setCurrentPage } = postsSlice.actions
+export const { searchPost, setSortProperty, setSearchedPosts, setCurrentPage, setIsAuth } = postsSlice.actions
 
 export default postsSlice.reducer
