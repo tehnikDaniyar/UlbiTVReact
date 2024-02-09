@@ -13,6 +13,7 @@ export default function Login() {
 	const autorization = (e) => {
 		e.preventDefault();
 		dispatch(setIsAuth(true));
+		localStorage.setItem('isAuth', true)
 	}
 
 	return (

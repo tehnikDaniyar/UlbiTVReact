@@ -75,7 +75,7 @@ const initialState = {
 	paginationInfo: {
 		currentPage: 1,
 	},
-	isAuth: false,
+	isAuth: Boolean(localStorage.getItem('isAuth')) || false,
 
 }
 
@@ -98,6 +98,7 @@ export const postsSlice = createSlice({
 		},
 		setIsAuth: (state, action) => {
 			state.isAuth = action.payload;
+			localStorage.setItem('isAuth', action.payload);
 		}
 	},
 	extraReducers: (builder) => {

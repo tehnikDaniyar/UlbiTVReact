@@ -1,5 +1,3 @@
-import { Route, Routes } from "react-router-dom"
-import Posts from "./components/pages/Posts";
 import Home from "./components/pages/home";
 import Error from "./components/pages/Error";
 import PostPage from "./components/pages/PostPage";
@@ -9,29 +7,34 @@ import { useState } from "react";
 import MyButton from "./components/UI/MyButton/MyButton";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from './components/Login/Login'
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
+import News from "./components/pages/News";
 
 
 function App() {
 	const isAuth = useSelector(store => store.posts.isAuth);
+	const routes = isAuth ? privateRoutes() : publicRoutes()
 
 
 	const router = createBrowserRouter([
 		{
-			path: '/',
 			element: <Home></Home>,
-			children: isAuth ? privateRoutes() : publicRoutes()
-		}
+			errorElement: <Error></Error>,
+			children: [
+				...routes,
+				{ path: 'news', element: <News></News> }
+			],
+		},
+
 	]);
 
-	console.log('App');
+	console.log('App', isAuth, [...routes]);
 
 
 	return (
 
 		<div className="App">
 			<RouterProvider router={router}>
-
 			</RouterProvider>
 		</div >
 	)
